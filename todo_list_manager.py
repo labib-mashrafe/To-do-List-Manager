@@ -1,4 +1,20 @@
-tasks = []
+#To-do List Manager CLI
+import json
+
+DATA_FILE = "tasks.json"
+
+def load_tasks():
+    try:
+        with open(DATA_FILE, "r") as file:
+            return json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+
+def save_tasks():
+    with open(DATA_FILE, "w") as file:
+        json.dump(tasks, file, indent=4)
+
+tasks = load_tasks()
 
 def show_tasks():
     if not tasks:
@@ -26,6 +42,7 @@ def main():
                 continue
             tasks.append({"name": name, "done": False})
             print(f"Task '{name}' added!")
+            save_tasks()
 
         elif choice == "2":
             if not tasks:
@@ -38,6 +55,7 @@ def main():
                 if 1 <= num <= len(tasks):
                     tasks[num-1]["done"] = True
                     print(f"Task '{tasks[num-1]['name']}' marked as done!")
+                    save_tasks()
                 else:
                     print("Invalid task number!")
             except ValueError:
