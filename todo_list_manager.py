@@ -17,7 +17,13 @@ def main():
         choice = input("Enter choice: ")
 
         if choice == "1":
-            name = input("Enter task name: ")
+            name = input("Enter task name: ").strip()
+            if not name:
+                print("Task name cannot be empty!")
+                continue 
+            if name.isdigit():
+                print("Task name cannot be just numbers!")
+                continue
             tasks.append({"name": name, "done": False})
             print(f"Task '{name}' added!")
 
